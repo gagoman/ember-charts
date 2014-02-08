@@ -8,6 +8,8 @@ Ember.Charts.PieComponent = Ember.Charts.ChartComponent.extend(
   # Getters for formatting human-readable labels from provided data
   formatValue: d3.format('.2s')
   formatValueLong: d3.format(',.r')
+  # 2 params are passed: data's trimmed `label` and `percent`
+  labelFormat: '%@, %@%'
 
   # The smallest slices will be combined into an "Other" slice until no slice is
   # smaller than minSlicePercent. "Other" is also guaranteed to be larger than
@@ -372,11 +374,12 @@ Ember.Charts.PieComponent = Ember.Charts.ChartComponent.extend(
       getLabelSize: (d) -> labelWidth
       getLabelText: (d) -> d.data.label
 
+    labelFormat = @get 'labelFormat'
     groups.select('text.data')
       .text((d) -> d.data.label)
       .attr(@get 'labelAttrs')
       .call(labelTrimmer.get 'trim')
-      .text((d) -> "#{this.textContent}, #{d.data.percent}%")
+      .text((d) -> labelFormat.fmt(this.textContent, d.data.percent))
 )
 
 Ember.Handlebars.helper('pie-chart', Ember.Charts.PieComponent)

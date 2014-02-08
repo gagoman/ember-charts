@@ -1352,6 +1352,7 @@ Ember.Charts.PieComponent = Ember.Charts.ChartComponent.extend(Ember.Charts.PieL
   classNames: ['chart-pie'],
   formatValue: d3.format('.2s'),
   formatValueLong: d3.format(',.r'),
+  labelFormat: '%@, %@%',
   minSlicePercent: 5,
   maxNumberOfSlices: 8,
   labelWidth: Ember.computed(function() {
@@ -1658,7 +1659,7 @@ Ember.Charts.PieComponent = Ember.Charts.ChartComponent.extend(Ember.Charts.PieL
     return groups.exit().remove();
   },
   updateGraphic: function() {
-    var groups, labelTrimmer, labelWidth;
+    var groups, labelFormat, labelTrimmer, labelWidth;
     groups = this.get('groups').attr(this.get('groupAttrs'));
     groups.select('path').attr(this.get('sliceAttrs'));
     labelWidth = this.get('labelWidth');
@@ -1670,10 +1671,11 @@ Ember.Charts.PieComponent = Ember.Charts.ChartComponent.extend(Ember.Charts.PieL
         return d.data.label;
       }
     });
+    labelFormat = this.get('labelFormat');
     return groups.select('text.data').text(function(d) {
       return d.data.label;
     }).attr(this.get('labelAttrs')).call(labelTrimmer.get('trim')).text(function(d) {
-      return "" + this.textContent + ", " + d.data.percent + "%";
+      return labelFormat.fmt(this.textContent, d.data.percent);
     });
   }
 });
