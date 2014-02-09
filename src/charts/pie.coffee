@@ -351,12 +351,14 @@ Ember.Charts.PieComponent = Ember.Charts.ChartComponent.extend(
     groups = @get 'groups'
     showDetails = @get 'showDetails'
     hideDetails = @get 'hideDetails'
+    clickHandler = @get 'clickHandler'
 
     entering = groups.enter()
       .append('g')
       .attr(class: 'arc')
       .on("mouseover", (d,i) -> showDetails(d,i,this))
       .on("mouseout", (d,i) -> hideDetails(d,i,this))
+    entering.on('click', (d, i) => clickHandler.call(@, d, i)) if clickHandler
     entering.append('path').attr('class', 'slice')
     entering.append('text').attr('class', 'data')
 

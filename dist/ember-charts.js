@@ -1643,10 +1643,12 @@ Ember.Charts.PieComponent = Ember.Charts.ChartComponent.extend(Ember.Charts.PieL
     }
   },
   updateData: function() {
-    var entering, groups, hideDetails, showDetails;
+    var clickHandler, entering, groups, hideDetails, showDetails,
+      _this = this;
     groups = this.get('groups');
     showDetails = this.get('showDetails');
     hideDetails = this.get('hideDetails');
+    clickHandler = this.get('clickHandler');
     entering = groups.enter().append('g').attr({
       "class": 'arc'
     }).on("mouseover", function(d, i) {
@@ -1654,6 +1656,11 @@ Ember.Charts.PieComponent = Ember.Charts.ChartComponent.extend(Ember.Charts.PieL
     }).on("mouseout", function(d, i) {
       return hideDetails(d, i, this);
     });
+    if (clickHandler) {
+      entering.on('click', function(d, i) {
+        return clickHandler.call(_this, d, i);
+      });
+    }
     entering.append('path').attr('class', 'slice');
     entering.append('text').attr('class', 'data');
     return groups.exit().remove();
