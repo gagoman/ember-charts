@@ -10,3 +10,4 @@ Includes branches:
 
 * bower integration - `bower_definition`
 * pie chart label format - `custom_pie_label_text_format`
+* pie chart label click handler `pie_component_click_handler`
