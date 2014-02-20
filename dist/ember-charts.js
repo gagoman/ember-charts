@@ -1435,11 +1435,6 @@ Ember.Charts.PieComponent = Ember.Charts.ChartComponent.extend(Ember.Charts.PieL
         otherItems.push(d);
         return otherSlice.percent += d.percent;
       });
-      if (otherSlice.percent < minSlicePercent) {
-        lowPercentIndex -= 1;
-        otherItems.push(data[lowPercentIndex]);
-        otherSlice.percent += data[lowPercentIndex].percent;
-      }
     }
     if (otherSlice.percent > 0) {
       maxNumberOfSlices -= 1;
